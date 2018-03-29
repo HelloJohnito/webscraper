@@ -6,4 +6,7 @@ my_url = 'https://sfbay.craigslist.org/search/sfc/roo?max_price=1100&availabilit
 client_response = req(my_url)
 page_html = client_response.read()
 
-print(client_response)
+client_response.close()
+
+page_soup = soup(page_html, "html.parser")
+
