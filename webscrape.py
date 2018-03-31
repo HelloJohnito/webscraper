@@ -1,12 +1,72 @@
 from urllib2 import urlopen as req
 from bs4 import BeautifulSoup as soup 
 
-my_url = 'https://sfbay.craigslist.org/search/sfc/roo?max_price=1100&availabilityMode=0&private_room=1'
+# Filters
+MAX_PRICE = 1110
+MAX_BEDROOMS = 1
 
-client_response = req(my_url)
-page_html = client_response.read()
+URL = 'https://sfbay.craigslist.org/search/sfc/roo?max_price={0}&max_bedrooms={1}'.format(MAX_PRICE, MAX_BEDROOMS)
 
-client_response.close()
 
-page_soup = soup(page_html, "html.parser")
+LOCATIONS = {
+    "alamo square / nopa": False,
+    "bayview": False,
+    "bernal heights": False,
+    "castro / upper market": False,
+    "cole valley / ashbury hts": False,
+    "downtown / civic / van ness": False,
+    "excelsior / outer mission": False,
+    "financial district": False,
+    "glen park": False,
+    "haight ashbury": False,
+    "hayes valley": False,
+    "ingleside / SFSU / CCSF": False,
+    "inner richmond": False,
+    "inner sunset / UCSF": False,
+    "laurel hts / presidio": False,
+    "lower haight": False,
+    "lower nob hill": False,
+    "lower pac hts": False,
+    "marina / cow hollow": False,
+    "mission district": False,
+    "nob hill": False,
+    "noe valley": False,
+    "north beach / telegraph hill": False,
+    "pacific heights": False,
+    "portola district": False,
+    "potrero hill": False,
+    "richmond / seacliff": False,
+    "russian hill": False,
+    "SOMA / south beach": False,
+    "sunset / parkside": False,
+    "tenderloin": False,
+    "treasure island": False,
+    "twin peaks / diamond hts": False,
+    "USF / panhandle": False,
+    "visitacion valley": False,
+    "west portal / forest hill": False,
+    "western addition": False,
+}
+
+
+def scrape(url): 
+    page_soup = create_page_soup(url)
+    page_containers = parse_containers(page_soup)
+    
+    
+def create_page_soup(url):
+    client_response = req(url)
+    page_html = client_response.read()
+    client_response.close()
+
+    return soup(page_html, "html.parser")
+
+
+def parse_containers(soup):
+    return soup.find_all("li", {"class": "result-row"})
+    
+
+def parse_single_container(containers):
+    for container in containers: 
+        
 
