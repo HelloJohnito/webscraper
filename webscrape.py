@@ -81,6 +81,7 @@ LOCATIONS = {
 
 
 FINAL_RESULT = {} 
+COUNTER_KEY = 0
 
 def scrape(location): 
     page_soup = create_page_soup(URLS[location])
@@ -105,17 +106,32 @@ def parse_results(soup):
 def parse_single_result(result, location):
     result_hood = result.find_all("span", {"class": "result-hood"})
     if not (result_hood):
-        print("No result hood")
         return
     
-    search_location = str(result_hood[0].text).strip().lower()
+    search_location = result_hood[0].text.encode('utf-8').strip().lower()
     if(search_location in LOCATIONS[location] and LOCATIONS[location][search_location]): 
-        print(search_location + "true")
-    else:
-        print(search_location + "was not in here")
+        fill_final_result(result)
+        
     return
 
+
+def fill_final_result(result):
+    global COUNTER_KEY
     
+    result_atag = result.find_all("a", {"class": "result-title hdrlnk"})[0]
+    result_date = result.find("time")
+    result_price = result.find_all("span", {"class": "result-price"})[0]    
+    
+    FINAL_RESULT[COUNTER_KEY] = {
+        "title": result_atag.text.encode('utf-8').strip(),
+        "link": result_atag["href"].encode('utf-8'),
+        "date": result_date["title"].encode('utf-8'),
+        "price": result_price.text.encode('utf-8')
+    }
+    COUNTER_KEY+=1
+    
+
     
 scrape("San_Francisco")
+
 
