@@ -103,10 +103,14 @@ def parse_results(soup):
     
 
 def parse_single_result(result, location):
-    search_location = str(result.find_all("span", {"class": "result-hood"})[0].text).strip().lower()
-    #problem with search_location in LOCATIONS and 
-    if(search_location in LOCATIONS and LOCATIONS[location][search_location]): 
-        print("true")
+    result_hood = result.find_all("span", {"class": "result-hood"})
+    if not (result_hood):
+        print("No result hood")
+        return
+    
+    search_location = str(result_hood[0].text).strip().lower()
+    if(search_location in LOCATIONS[location] and LOCATIONS[location][search_location]): 
+        print(search_location + "true")
     else:
         print(search_location + "was not in here")
     return
