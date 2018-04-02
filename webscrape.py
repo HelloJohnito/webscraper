@@ -90,6 +90,8 @@ def scrape(location):
     for result in list_of_results:
         parse_single_result(result, location)
         
+    export_file(FINAL_RESULT)
+    return
     
     
 def create_page_soup(url):
@@ -111,7 +113,6 @@ def parse_single_result(result, location):
     search_location = result_hood[0].text.encode('utf-8').strip().lower()
     if(search_location in LOCATIONS[location] and LOCATIONS[location][search_location]): 
         fill_final_result(result)
-        
     return
 
 
@@ -129,8 +130,12 @@ def fill_final_result(result):
         "price": result_price.text.encode('utf-8')
     }
     COUNTER_KEY+=1
+    return
     
 
+def export_file(final_result):
+    return
+    
     
 scrape("San_Francisco")
 
