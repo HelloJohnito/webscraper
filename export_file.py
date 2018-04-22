@@ -19,7 +19,7 @@ def export_to_file(results, new_file_name):
 
             writeCSV.writerow(columns)
 
-    return
+    return "Success"
 
 
 
@@ -32,8 +32,8 @@ def export_to_file(results, new_file_name):
 #         for row in readCSV:
 #             list.append(row)
 #     return list
-#
-#
+
+
 # def write_to_file(list, new_file_name):
 #     with open(new_file_name, 'w') as new_file:
 #         writeCSV = csv.writer(new_file, delimiter=',')
